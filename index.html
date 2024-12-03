@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Page Esthétique</title>
+    <style>
+        /* Style général */
+        body {
+            background-color: black;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        #loginPage, #counterPage {
+            text-align: center; /* Tout centrer */
+            width: 100%;
+        }
+
+        h1 {
+            font-size: 4rem;
+            color: black;
+            text-shadow: 0 0 5px rgba(255, 0, 0, 0.5),
+                         0 0 10px rgba(255, 0, 0, 0.5),
+                         0 0 20px rgba(255, 0, 0, 0.8),
+                         0 0 30px rgba(255, 0, 0, 1),
+                         0 0 40px rgba(255, 0, 0, 1),
+                         0 0 50px rgba(255, 0, 0, 1);
+            animation: glow 2s infinite;
+        }
+
+        @keyframes glow {
+            0% {
+                text-shadow: 0 0 5px rgba(255, 0, 0, 0.5),
+                             0 0 10px rgba(255, 0, 0, 0.5),
+                             0 0 20px rgba(255, 0, 0, 0.8),
+                             0 0 30px rgba(255, 0, 0, 1),
+                             0 0 40px rgba(255, 0, 0, 1),
+                             0 0 50px rgba(255, 0, 0, 1);
+            }
+            50% {
+                text-shadow: 0 0 10px rgba(255, 0, 0, 1),
+                             0 0 20px rgba(255, 0, 0, 1),
+                             0 0 30px rgba(255, 0, 0, 1),
+                             0 0 40px rgba(255, 0, 0, 1),
+                             0 0 50px rgba(255, 0, 0, 1),
+                             0 0 60px rgba(255, 0, 0, 1);
+            }
+            100% {
+                text-shadow: 0 0 5px rgba(255, 0, 0, 0.5),
+                             0 0 10px rgba(255, 0, 0, 0.5),
+                             0 0 20px rgba(255, 0, 0, 0.8),
+                             0 0 30px rgba(255, 0, 0, 1),
+                             0 0 40px rgba(255, 0, 0, 1),
+                             0 0 50px rgba(255, 0, 0, 1);
+            }
+        }
+
+        form {
+            margin-top: 20px;
+        }
+
+        input[type="password"] {
+            padding: 10px;
+            font-size: 1.2rem;
+            margin-right: 10px;
+            border: 2px solid rgba(255, 0, 0, 1);
+            background-color: black;
+            color: white;
+            border-radius: 5px;
+        }
+
+        input[type="password"]::placeholder {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        button {
+            padding: 10px;
+            font-size: 1.2rem;
+            background-color: black;
+            color: white;
+            border: 2px solid rgba(255, 0, 0, 1);
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: rgba(255, 0, 0, 0.8);
+            color: black;
+        }
+
+        #counter {
+            font-size: 2rem;
+            color: white;
+            margin-top: 20px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div id="loginPage">
+        <h1>Date</h1>
+        <form id="passwordForm">
+            <input type="password" id="password" placeholder="Mot de passe">
+            <button type="submit">Enter</button>
+        </form>
+    </div>
+
+    <div id="counterPage" style="display: none;">
+        <h1>Temps Restant :</h1>
+        <div id="counter">Calcul...</div>
+    </div>
+
+    <script>
+        const form = document.getElementById('passwordForm');
+        const loginPage = document.getElementById('loginPage');
+        const counterPage = document.getElementById('counterPage');
+        const counter = document.getElementById('counter');
+        const targetDate = new Date('2024-12-11T00:00:00'); // Date cible : 11 décembre 2024
+
+        form.addEventListener('submit', function(event) {
+            event.preventDefault();
+            const password = document.getElementById('password').value;
+
+            if (password === "111024") {
+                loginPage.style.display = 'none'; // Masquer la page de connexion
+                counterPage.style.display = 'flex'; // Afficher la page du compteur
+                counterPage.style.flexDirection = 'column'; // Assurer un centrage vertical
+                startCountdown();
+            } else {
+                alert("Mot de passe incorrect.");
+            }
+        });
+
+        function startCountdown() {
+            function updateCounter() {
+                const now = new Date();
+                const timeDiff = targetDate - now;
+
+                if (timeDiff <= 0) {
+                    counter.innerHTML = "L'événement est arrivé !";
+                    return;
+                }
+
+                const days = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((timeDiff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((timeDiff % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((timeDiff % (1000 * 60)) / 1000);
+
+                counter.innerHTML = `${days} jours, ${hours} heures, ${minutes} minutes, ${seconds} secondes`;
+            }
+
+            updateCounter();
+            setInterval(updateCounter, 1000); // Mettre à jour chaque seconde
+        }
+    </script>
+</body>
+</html>
